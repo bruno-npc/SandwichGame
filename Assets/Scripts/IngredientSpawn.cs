@@ -4,78 +4,121 @@ using UnityEngine;
 
 public class IngredientSpawn : MonoBehaviour
 {
-    public List<GameObject> prefabs;  // Lista de prefabs a serem instanciados
-    public Transform spawnPoint;  // Ponto de spawn dos prefabs
-    public float yOffset = 1f;  // Alteração incremental no eixo Y
-    public List<GameObject> spawnedPrefabs = new List<GameObject>();  // Lista de prefabs instanciados
+    public List<GameObject> prefabs;  
+    public Transform spawnPoint;  
+    public float yOffset; 
+    public List<GameObject> spawnedPrefabs = new List<GameObject>();
 
-    public List<GameObject> comparisonList = new List<GameObject>();  // Lista de comparação para verificar igualdade
+    public List<SandwichScriptabeObject> sandwichObject;
+
+    [SerializeField] private SandwichScriptabeObject rSandwich;
+
+    [SerializeField] private GameObject[] comparisonList;
+
+    [SerializeField] private GameManager gameManager;
+    
+    [SerializeField] private SoundRender sound;
+    void Start(){
+        randomSandwich();
+    }
+
+
+    private void Update()
+    {
+        SpawnBread();
+    }
+
+    private void randomSandwich (){
+        rSandwich = sandwichObject[Random.Range(0, sandwichObject.Count)];
+        gameManager.setIconList(rSandwich.ingredients);
+        gameManager.setName(rSandwich.name);
+        comparisonList = rSandwich.ingredients;
+    }
+
+    private void SpawnBread (){
+        if (spawnedPrefabs.Count == 0)
+        {
+            GameObject newPrefab = Instantiate(prefabs[0], spawnPoint.position, Quaternion.Euler(0f, 90f, 0f));
+            spawnedPrefabs.Add(newPrefab);
+        }
+        if (spawnedPrefabs.Count == 4)
+        {
+            GameObject newPrefab = Instantiate(prefabs[0], spawnPoint.position + Vector3.up * yOffset * 4, Quaternion.Euler(0f, 90f, 0f));
+            spawnedPrefabs.Add(newPrefab);
+        }
+    }
 
     public void SpawnPrefab(int prefabIndex)
     {
-        // Verifica se o índice do prefab é válido
-        if (prefabIndex >= 0 && prefabIndex < prefabs.Count)
+        if (prefabIndex > 0 && spawnedPrefabs.Count <= 4)
         {
-            // Instancia um novo prefab com uma alteração no eixo Y
-            GameObject newPrefab = Instantiate(prefabs[prefabIndex], spawnPoint.position + Vector3.up * (yOffset * spawnedPrefabs.Count), Quaternion.identity);
-            spawnedPrefabs.Add(newPrefab);  // Adiciona o prefab à lista
+            GameObject newPrefab = Instantiate(prefabs[prefabIndex], spawnPoint.position + Vector3.up * yOffset * spawnedPrefabs.Count, Quaternion.identity);
+            spawnedPrefabs.Add(newPrefab);
+            sound.SpawnNewIngredient();
         }
     }
 
     public void ClearLastPrefab()
     {
-        // Verifica se há algum prefab para ser removido
-        if (spawnedPrefabs.Count > 0)
+        if (spawnedPrefabs.Count > 1)
         {
-            // Obtém o último prefab instanciado
+            if (spawnedPrefabs.Count == 5)
+            {
+                GameObject fifthPrefab = spawnedPrefabs[4];
+                spawnedPrefabs.Remove(fifthPrefab);
+                Destroy(fifthPrefab);
+            }
             GameObject lastPrefab = spawnedPrefabs[spawnedPrefabs.Count - 1];
-            spawnedPrefabs.Remove(lastPrefab);  // Remove o último prefab da lista
-            Destroy(lastPrefab);  // Destroi o último prefab instanciado
+            spawnedPrefabs.Remove(lastPrefab);
+            Destroy(lastPrefab);
         }
+        sound.RemoveIngredient();
+    }
+
+    private bool CompareLists()
+    {
+        if (spawnedPrefabs.Count != comparisonList.Length)
+        {
+            return false;
+        }
+
+        for (int i = 0; i < spawnedPrefabs.Count; i++)
+        {
+            string spawnedName = spawnedPrefabs[i].name.Replace("(Clone)", string.Empty);
+            string comparisonName = comparisonList[i].name.Replace("(Clone)", string.Empty);
+
+            if (spawnedName != comparisonName)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public void ClearPrefabs()
     {
-        // Destroi todos os prefabs instanciados e limpa a lista
-        foreach (GameObject spawnedPrefab in spawnedPrefabs)
+        for (int i = spawnedPrefabs.Count - 1; i > 0; i--)
         {
-            Destroy(spawnedPrefab);
-        }
-        spawnedPrefabs.Clear();
-    }
-
-private bool CompareLists()
-{
-    // Compara o tamanho das duas listas
-    if (spawnedPrefabs.Count != comparisonList.Count)
-    {
-        return false;
-    }
-
-    for (int i = 0; i < spawnedPrefabs.Count; i++)
-    {
-        // Obtém os nomes dos objetos sem o sufixo "(Clone)" caso exista
-        string spawnedName = spawnedPrefabs[i].name.Replace("(Clone)", string.Empty);
-        string comparisonName = comparisonList[i].name.Replace("(Clone)", string.Empty);
-
-        if (spawnedName != comparisonName)
-        {
-            return false;
+            GameObject prefab = spawnedPrefabs[i];
+            spawnedPrefabs.Remove(prefab);
+            Destroy(prefab);
         }
     }
 
-    return true;
-}
-
-    public void comparar (){
-        // Compara as duas listas quando uma nova instância é adicionada
+    public void comparar()
+    {
         if (CompareLists())
         {
-            Debug.Log("As listas são iguais!");
+            gameManager.incrementScore(5);
+            randomSandwich();
+            ClearPrefabs();
         }
-        else if (!CompareLists())
+        else
         {
-            Debug.Log("As listas são diferentes!");
+            gameManager.incrementScore(0);
+            randomSandwich();
+            ClearPrefabs();
         }
     }
 }

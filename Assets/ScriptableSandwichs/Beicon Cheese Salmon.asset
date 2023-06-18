@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e77141b48f6e5164abe5261afede4789, type: 3}
+  m_Name: Beicon Cheese Salmon
+  m_EditorClassIdentifier: 
+  sandwichName: Beicon Cheese Salmon
+  sandwichIconPrefab: {fileID: 0}
+  ingredients:
+  - {fileID: 4158054231315825722, guid: 235323e687589494abe411cd82a59305, type: 3}
+  - {fileID: 6628004181836889935, guid: c65fc58cb792b664a8eedc2e74b863a5, type: 3}
+  - {fileID: 6235600997143692404, guid: 575702425e6a54f4e9dc6623b2f3ac9c, type: 3}
+  - {fileID: 9122277439999336619, guid: 3e72b9f8001146d4ea2ce5c70f43e4ca, type: 3}
+  - {fileID: 4158054231315825722, guid: 235323e687589494abe411cd82a59305, type: 3}
