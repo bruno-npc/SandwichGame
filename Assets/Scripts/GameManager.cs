@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject scoreObject;
     [SerializeField] private TextMeshProUGUI textMesh;
 
-    public float totalTime = 10f; //120f;
+    public float totalTime = 120f; //120f;
     public TextMeshProUGUI countdownText;
 
     private float currentTime;

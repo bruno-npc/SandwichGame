@@ -14,8 +14,8 @@ public class ScoreManager : MonoBehaviour
     private string scoreTotal = "";
 
     public void AddScore(int score){
-        UpdateScoreArray(LoadScores());
         SaveScores(LoadScores() + score.ToString() + "\n");
+        UpdateScoreArray(LoadScores());
     }
 
     private void UpdateScoreArray(string scoreString){

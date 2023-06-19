@@ -19,6 +19,9 @@ public class IngredientSpawn : MonoBehaviour
     [SerializeField] private GameManager gameManager;
     
     [SerializeField] private SoundRender sound;
+    
+    [SerializeField] private IconSandwich iconSandwich;
+
     void Start(){
         randomSandwich();
     }
@@ -34,6 +37,9 @@ public class IngredientSpawn : MonoBehaviour
         gameManager.setIconList(rSandwich.ingredients);
         gameManager.setName(rSandwich.name);
         comparisonList = rSandwich.ingredients;
+
+        iconSandwich.DestroySandwich();
+        iconSandwich.InstantiateSandwich();
     }
 
     private void SpawnBread (){
