@@ -13,12 +13,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject scoreObject;
     [SerializeField] private TextMeshProUGUI textMesh;
 
-    public float totalTime = 120f;
+    public float totalTime = 10f; //120f;
     public TextMeshProUGUI countdownText;
 
     private float currentTime;
 
     [SerializeField] private SoundRender sound;
+    [SerializeField] private ScoreManager scoreManager;
 
     public bool gameOn;
 
@@ -58,10 +59,11 @@ public class GameManager : MonoBehaviour
     private void EndGame()
     {
         gameOn = false;
+        scoreManager.AddScore(this.score);
     }
 
     public void incrementScore(int value){
-        score += value + 5;
+        score += value;
         textMesh.text = "Money: " + score;
     }
 

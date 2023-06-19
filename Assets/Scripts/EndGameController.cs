@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EndGameController : MonoBehaviour
 {
@@ -16,4 +17,17 @@ public class EndGameController : MonoBehaviour
             endGameScreen.SetActive(false);
         }
     }
+
+    public void RestartGame(){
+        LoadScene("Countdown");
+    }
+
+    public void MainMenu(){
+        LoadScene("MainMenu");
+    }
+
+    public void LoadScene(string sceneName){
+        SceneManager.LoadScene(sceneName);
+    }
+
 }

@@ -7,13 +7,14 @@ public class IngredientSpawn : MonoBehaviour
     public List<GameObject> prefabs;  
     public Transform spawnPoint;  
     public float yOffset; 
-    public List<GameObject> spawnedPrefabs = new List<GameObject>();
+    
+    private List<GameObject> spawnedPrefabs = new List<GameObject>();
 
     public List<SandwichScriptabeObject> sandwichObject;
 
-    [SerializeField] private SandwichScriptabeObject rSandwich;
+    private SandwichScriptabeObject rSandwich;
 
-    [SerializeField] private GameObject[] comparisonList;
+    private GameObject[] comparisonList;
 
     [SerializeField] private GameManager gameManager;
     
@@ -110,13 +111,13 @@ public class IngredientSpawn : MonoBehaviour
     {
         if (CompareLists())
         {
-            gameManager.incrementScore(5);
+            gameManager.incrementScore(10);
             randomSandwich();
             ClearPrefabs();
         }
         else
         {
-            gameManager.incrementScore(0);
+            gameManager.incrementScore(1);
             randomSandwich();
             ClearPrefabs();
         }

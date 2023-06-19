@@ -8,4 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/Game.unity
+    guid: e4da28a4d6d7c44479a71167d6d1e643
+  - enabled: 1
+    path: Assets/Scenes/Countdown.unity
+    guid: 67539c836be0ff940aa3a6e0775df90a
   m_configObjects: {}
